@@ -84,14 +84,15 @@ class GroupService
         foreach ($students as $key => $student) {
             $results['students'][] = $student['student_name'];
         }
-        foreach ($scores as $key => $score) {
-            $results['scores'][$key][] = $score['name'];
-            $results['scores'][$key][] = $score['title'];
+        foreach ($scores as $score) {
+            $key = $score['assignment_id'];
+            if (!isset($results['scores'][$key])) {
+                $results['scores'][$key][] = $score['name'];
+                $results['scores'][$key][] = $score['title'];
+            }
             foreach ($students as $student) {
                 if (!empty($score['student_id']) && $score['student_id'] === $student['student_id']) {
                     $results['scores'][$key][] = $score['score'];
-                } else {
-                    $results['scores'][$key][] = 0;
                 }
             }
         }

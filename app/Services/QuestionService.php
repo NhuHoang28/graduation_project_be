@@ -67,13 +67,12 @@ class QuestionService
 			->toArray();
 	}
 
-	public function questionDetail($id, $user_id)
+	public function questionDetail($id)
 	{
 		$results = Question::select(['question.*', 'subject.name as subject_name', 'user_info.fullname as teacher_name'])
 			->join('subject', 'subject.id', 'question.subject_id')
 			->join('users', 'users.id', 'question.user_id')
 			->join('user_info', 'user_info.user_id', 'users.id')
-			->where('users.id', $user_id)
 			->where('question.id', $id)
 			->first();
 		return $results ?? [];

@@ -48,7 +48,7 @@ class QuestionController extends Controller
 
     public function show(Request $request, $id)
     {
-        $question_list = $this->service->questionDetail($id, $request->user()->id);
+        $question_list = $this->service->questionDetail($id);
         return response()->json([
             'data' => $question_list
         ], 200);
