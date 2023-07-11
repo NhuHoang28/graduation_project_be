@@ -46,4 +46,10 @@ class StudentController extends Controller
             'data' => $results
         ], 200);
     }
+    public function StudentlistScore(Request $request, $id)
+    {
+        $results = $this->service->StudentlistScore($id, $request->user()->id);
+        return response()->json(['data' => $results]);
+
+    }
 }

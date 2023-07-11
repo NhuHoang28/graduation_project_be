@@ -64,5 +64,6 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('/groups/{group_id}/assignments/{assignment_id}/answer', 'answerDetail')->name('answer-detail');
         Route::post('/answer', 'createAnswer')->name('create-answer');
         Route::get('/groups', 'listGroupOfStudent')->name('student-group-list');
+        Route::get('/groups/{id}/score', 'StudentlistScore')->name('student-list-score');
     });
 });

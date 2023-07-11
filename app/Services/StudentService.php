@@ -48,4 +48,40 @@ class StudentService
 	{
 		return Answer::create($data);
 	}
+
+    public function StudentlistScore($group_id,  $user_id)
+    {
+
+        $scores = Group::select([
+            'group.name as group_name',
+            'assignment.id as assignment_id',
+            'assignment.title',
+            'assignment_type.name',
+            'user_info.fullname as student_name',
+            'answer.score',
+            'student_id',
+        ])
+            ->join('assignment', 'assignment.group_id', 'group.id')
+            ->join('assignment_type', 'assignment_type.id', 'assignment.assignment_type_id')
+            ->join('answer', 'answer.assignment_id', 'assignment.id')
+            ->join('users', 'users.id', 'answer.student_id')
+            ->join('student_group', 'student_group.user_id', 'users.id')
+            ->join('user_info', 'users.id', 'user_info.user_id')
+            ->where('group.id', $group_id)
+            ->where('student_id', $user_id)
+            ->get()
+            ->toArray();
+
+        $results = [];
+        foreach ($scores as $score) {
+            $key = $score['assignment_id'];
+            if (!isset($results['scores'][$key])) {
+                $results['scores'][$key][] = $score['name'];
+                $results['scores'][$key][] = $score['title'];
+                $results['scores'][$key][] = $score['score'];
+            }
+        }
+        return $results;
+    }
+
 }
